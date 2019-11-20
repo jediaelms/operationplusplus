@@ -8,7 +8,7 @@ $login_erro = false;
 if (!empty($_POST)){
   $email = $_POST['email'];
   $senha = $_POST['password'];
-  $sql = "SELECT `email`, `senha`, `nome`, `tipo` FROM `usuario` WHERE `email` = '{$email}' AND `senha` = '{$senha}'";
+  $sql = "SELECT `cod_usuario`, `email`, `senha`, `nome`, `tipo` FROM `usuario` WHERE `email` = '{$email}' AND `senha` = '{$senha}'";
   var_dump($sql);
   if($query = $mysqli->query($sql)){
     $row_cont = $query->num_rows;
@@ -16,6 +16,7 @@ if (!empty($_POST)){
       while($dados = $query->fetch_assoc())
       { 
         session_start();
+        $_SESSION['id'] = $_POST['cod_usuario'];
         $_SESSION['email'] = $_POST['email'];
         $_SESSION['nome'] = $dados['nome'];
         if($dados['tipo'] == 1){
