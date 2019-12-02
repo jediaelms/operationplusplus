@@ -30,6 +30,12 @@
       <div class="sidebar-heading">
         Interface
       </div>
+      <li class="nav-item">
+        <a class="nav-link" href="list_msgs.php">
+          <i class="fas fa-fw fa-comments"></i>
+          <span>Central de Menssagens</span>
+        </a>
+      </li>
 <?php
   if($_SESSION['nivel'] == 1){
 ?>
