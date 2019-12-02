@@ -52,7 +52,52 @@
   <script src="js/sb-admin-2.min.js"></script>
   <script src="js/chat.js"></script>
   <script src="js/chat-manager.js"></script>
-  
+  <script src="js/push.js"></script>
+  <script src="js/serviceWorker.min.js"></script>
 </body>
 
 </html>
+<script>
+var notificado = localStorage.getItem("notificado");
+var hora = 3;
+var getNotifications = function(){
+  var now = new Date();
+  var tempo = 6000;
+  if(now.getHours() == hora && notificado != "sim"){
+    notificado = "sim";
+    localStorage.setItem("notificado", "sim");
+    $.ajax({
+        url: "tables/get-alerts.php",
+        type: 'post',
+        dataType: "json",
+        data: {
+            usuario: <?=$_SESSION['id']?>
+        }
+    })
+        .done(function (msg) {
+            console.log(msg);
+            for (let i in msg) {
+              // alert(i);
+              Push.create("Alerta",{
+              body: msg[i].descricao,
+              icon: 'https://images.vexels.com/media/users/3/144231/isolated/preview/1b8bdcf6004ed831ea6441af83a38a3e-sinal-de-s--mbolo-de-medicina-by-vexels.png',
+              timeout: tempo + (i * tempo),
+              onClick: function () {
+                  window.open("list_alertas.php")
+                  this.close();
+              }
+            });
+            }
+        })
+        .fail(function (jqXHR, textStatus, msg) {
+          console.log(textStatus);
+        });
+  }
+  else{
+    if(now.getHours() == hora){
+      localStorage.setItem("notificado", "nao");
+    }
+  }
+}
+setInterval(getNotifications, 200);
+</script>
