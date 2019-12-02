@@ -46,6 +46,23 @@ require("header.php");
 
       </div>
       <!-- End of Main Content -->
+
+      <div class="modal fade" id="acaoModal" tabindex="-1" role="dialog" aria-labelledby="acaoModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="acaoTitle"></h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body" id="acaoBody"></div>
+        <div class="modal-footer">
+          <a href="javascript:window.location.reload(true)" class="btn btn-primary">Confirmar</a>
+        </div>
+      </div>
+    </div>
+  </div>
 <?php
     require("chat.php");
     require("footer.php");
