@@ -1,5 +1,5 @@
 <?php
-$sql="SELECT o.`nome` as `opnome`, u.`nome`, horario, t.`nome` as `tipo` FROM `operacao` o, `paciente` p, `usuario`u , `tipo_operacao` t WHERE o.`cod_paciente`= p.`cod_paciente` AND u.`cod_usuario`=p.`usuario_cod_usuario` AND o.`tipo_operacao_cod_tip_op`=t.`cod_tip_op`;";
+$sql="SELECT o.`cod_operacao`, o.`nome` as `opnome`, u.`nome`, o.horario, t.`nome` as `tipo` FROM `operacao` o, `paciente` p, `usuario`u , `tipo_operacao` t WHERE o.`cod_paciente`= p.`cod_paciente` AND u.`cod_usuario`=p.`usuario_cod_usuario` AND o.`tipo_operacao_cod_tip_op`=t.`cod_tip_op`;";
 $result = $conn->query($sql);
 ?>
 <!-- Page Heading -->
@@ -32,7 +32,7 @@ $result = $conn->query($sql);
                         echo "<td>".$row["horario"]."</td>";
                   ?>
                       <td>
-                        <a href="#" class="btn btn-info btn-circle btn-sm">
+                        <a href="../cad_op?id=<?= $row['cod_operacao'] ?>" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
                         <a href="#" class="btn btn-danger btn-circle btn-sm">

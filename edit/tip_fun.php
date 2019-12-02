@@ -1,19 +1,27 @@
 <?php
+$mysqli = mysqli_connect("localhost", "root", "", "operation_tb");
+
+if (!$mysqli) {
+  echo "Error: Unable to connect to MySQL." . PHP_EOL;
+  echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
+  echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
+  exit;
+}
 
 $login_erro = false;
 if (!empty($_POST)){
   $tipo = $_POST['tipo'];
   $sql = "INSERT INTO `tipo_funcionario` (`titulo`) VALUES ('{$tipo}')";
   //var_dump($sql);
-  if($query = $conn->query($sql)){
+  if($query = $mysqli->query($sql)){
     echo "<span style='color: green'>Cadastrado com sucesso!</span>";
   }
   else{
-    echo "Erro -> ". $conn->error;
+    echo "Erro -> ". $mysqli->error;
   }
   //var_dump($query);
 }
-mysqli_close($conn);
+mysqli_close($mysqli);
 ?>
 
 <!-- Basic Card Example -->

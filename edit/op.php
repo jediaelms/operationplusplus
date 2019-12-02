@@ -23,7 +23,7 @@ if (!empty($_POST)){
   $data_fim = $_POST['data_fim'];
   //var_dump($data_ini);
 
-  $sql = "INSERT INTO `operacao` (`nome`, `descricao`, `cod_paciente`, `horario`, `horario_fim`, `tipo_operacao_cod_tip_op`) VALUES ('{$nome}','{$observacoes}','{$paciente}','{$data_ini}','{$data_fim}','{$tipo_operacao}')";
+  $sql = "INSERT INTO `operacao` (`nome`, `descricao`, `cod_paciente`, `horario_inicio`, `horario_fim`, `tipo_operacao_cod_tip_op`) VALUES ('{$nome}','{$observacoes}','{$paciente}','{$data_ini}','{$data_fim}','{$tipo_operacao}')";
   //var_dump($sql);
   if($query = $conn->query($sql)){
     echo "<span style='color: green'>Cadastrado com sucesso!</span>";
@@ -45,7 +45,7 @@ mysqli_close($conn);
             <div class="form-group row">
                 <div class="col-sm-12 mb-3 mb-sm-0">
                     <small>Operação:</small>
-
+                    
                     <input type="text" name="nome" class="form-control form-control-user" id="exampleFirstName" placeholder="Nome">
 
                 </div>

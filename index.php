@@ -8,7 +8,7 @@ $login_erro = false;
 if (!empty($_POST)){
   $email = $_POST['email'];
   $senha = $_POST['password'];
-  $sql = "SELECT `cod_usuario`, `email`, `senha`, `nome`, `tipo` FROM `usuario` WHERE `email` = '{$email}' AND `senha` = '{$senha}'";
+  $sql = "SELECT `cod_usuario`, `email`, `senha`, `nome` FROM `usuario` WHERE `email` = '{$email}' AND `senha` = '{$senha}'";
   var_dump($sql);
   if($query = $mysqli->query($sql)){
     $row_cont = $query->num_rows;
@@ -16,18 +16,24 @@ if (!empty($_POST)){
       while($dados = $query->fetch_assoc())
       { 
         session_start();
-        $_SESSION['id'] = $_POST['cod_usuario'];
+        $_SESSION['id'] = $dados['cod_usuario'];
         $_SESSION['email'] = $_POST['email'];
         $_SESSION['nome'] = $dados['nome'];
-        if($dados['tipo'] == 1){
+        $sql2 =   "SELECT * FROM funcionario WHERE usuario_cod_usuario = '{$dados['cod_usuario']}'";
+        if($query2 = $mysqli->query($sql2)){
+          $row_cont = $query2->num_rows;
+          if($row_cont > 0){
           $_SESSION['nivel'] = 1;
           header("Location: ./main.php");
-        }else{
-          $_SESSION['nivel'] = 0;
-          header("Location: ./main.php");
+          }else{
+            $_SESSION['nivel'] = 0;
+            header("Location: ./main.php");
+          }
         }
       }
-  }else{
+    }
+    else
+    {
       $login_erro = true;
     }
   }
@@ -87,13 +93,13 @@ require("header.php");
                     }
 ?>
                     <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
-                    <hr>
+                    <!--<hr>
                     <a href="javascript: document.login.submit();" class="btn btn-google btn-user btn-block">
                       <i class="fab fa-google fa-fw"></i> Login com Google
                     </a>
                     <a href="index.php" class="btn btn-facebook btn-user btn-block">
                       <i class="fab fa-facebook-f fa-fw"></i> Login com Facebook
-                    </a>
+                    </a>-->
                   </form>
                   <hr>
                   <div class="text-center">

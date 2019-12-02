@@ -8,12 +8,11 @@ if (!empty($_POST)){
   $nome = $_POST['nome'];
   $email = $_POST['email'];
   $senha = $_POST['senha'];
-  $crm = $_POST['crm'];
   $sql = "INSERT INTO `usuario` (`email`, `senha`, `nome`, `cpf`, `telefone`, `rua`, `numero`, `bairro`, `cidade_cod_cidade`) VALUES ('{$email}','{$senha}','{$nome}', null, null, null, null, null, 1)";
   //var_dump($sql);
   if($query = $conn->query($sql)){
     $id = $conn->insert_id;
-    $sql = "INSERT INTO `funcionario` (`cod_tip_fun`, `usuario_cod_usuario`, `crm`) VALUES ({$tipo}, {$id}, {$crm})";
+    $sql = "INSERT INTO `funcionario` (`cod_tip_fun`, `usuario_cod_usuario`, `crm`) VALUES ({$tipo}, {$id}, null)";
     if($query = $conn->query($sql)){
         echo "<span style='color: green'>Cadastrado com sucesso!</span>";
     }
@@ -57,9 +56,6 @@ mysqli_close($conn);
                     ?>
                     </select>
                 </div>
-            </div>
-            <div class="form-group">
-                <input type="text" name="crm" class="form-control form-control-user" placeholder="CRM">
             </div>
             <div class="form-group">
                 <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Email">
