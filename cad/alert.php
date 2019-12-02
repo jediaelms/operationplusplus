@@ -51,24 +51,24 @@ if (!empty($_POST)){
                 for ($i = 0; $i < $qtd; $i++){
                     $sql = "INSERT INTO `registros` (`alerta_espacado_cod_espacado`) VALUES ('{$id}')";
                     if(!($query = $mysqli->query($sql))){
-                        var_dump($sql);
-                        echo "1Erro -> ". $mysqli->error;
+                        //var_dump($sql);
+                        echo "Erro -> ". $mysqli->error;
                         $erro = true;
                         break;
                     }
                 }
                 if(!$erro) {
-                    echo "<span style='color: green'>Alterado com sucesso!</span>";
+                    echo "<span style='color: green'>Cadastrado com sucesso!</span>";
                 }
             }
             else{
                 var_dump($sql);
-                echo "2Erro -> ". $mysqli->error;
+                echo "Erro -> ". $mysqli->error;
             }
         }
         else{
             var_dump($sql);
-            echo "3Erro -> ". $mysqli->error;
+            echo "Erro -> ". $mysqli->error;
         }
     }
 
