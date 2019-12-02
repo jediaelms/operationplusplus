@@ -32,9 +32,11 @@ require("header.php");
           <h1 class="h3 mb-4 text-gray-800"><?=$H1_Title?>
           <?php 
             if(isset($table)){
+              if($_SESSION['nivel'] == 1){
           ?> 
               <a href="<?=$link?>" class="primary"><i class="fas fa-plus-circle"></i></a>
           <?php
+              }
             }
           ?>
           </h1>

@@ -31,12 +31,18 @@ $result = $conn->query($sql);
                         echo "<td>".$tipo."</td>";
                     ?>
                       <td>
+                    <?php
+                    if($_SESSION['nivel'] == 1){
+                    ?>
                         <a href="#" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
                         <a href="#" class="btn btn-danger btn-circle btn-sm">
                             <i class="fas fa-trash"></i>
                         </a>
+                    <?php
+                    }
+                    ?>
                         <a href="#" class="btn btn-info btn-circle btn-sm open">
                             <i class="fas fa-check"></i>
                         </a>

@@ -9,16 +9,20 @@
         <div class="sidebar-brand-text mx-3">Operation <sup>++</sup></div>
       </a>
 
+      <?php
+        if($_SESSION['nivel'] == 1){
+          ?>
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
-
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
         <a class="nav-link" href="main.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
-
+      <?php
+        }
+      ?>
       <!-- Divider -->
       <hr class="sidebar-divider">
 

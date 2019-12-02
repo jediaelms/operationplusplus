@@ -16,7 +16,13 @@ $result = $conn->query($sql);
         <thead>
           <tr>
             <th>Título</th>
-            <th>Ações</th>
+            <?php
+            if($_SESSION['nivel'] == 1){
+            ?>
+              <th>Ações</th>
+            <?php
+            }
+            ?>
           </tr>
         </thead>
         <tbody>
@@ -26,6 +32,7 @@ $result = $conn->query($sql);
                       while($row = $result->fetch_assoc()) {
                         echo "<tr>";
                         echo "<td>".$row["conteudo"]."</td>";
+                        if($_SESSION['nivel'] == 1){
                   ?>
                       <td>
                         <a href="#" class="btn btn-info btn-circle btn-sm">
@@ -36,6 +43,7 @@ $result = $conn->query($sql);
                         </a>
                       </td>
                   <?php
+                        }
                   echo "</tr>";
                 }
               }
