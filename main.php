@@ -2,7 +2,6 @@
 require('validate.php');
 $title = "Operation++ - Dashboard";
 require("header.php");
-
 ?>
 
 <body id="page-top">
@@ -44,8 +43,17 @@ require("header.php");
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Operações(Junho)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">26</div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Operações sendo Acompanhadas:</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        <?php
+                        require('conexao.php');
+                        $sql = "SELECT COUNT(*) as qtd FROM `operacao` WHERE fim_acompanhamento IS NULL";
+                        if($result = $mysqli->query($sql)){
+                          $row = $result->fetch_assoc();
+                          echo $row['qtd'];
+                        }
+                        ?>
+                      </div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -61,16 +69,15 @@ require("header.php");
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tarefas Concluídas</div>
-                      <div class="row no-gutters align-items-center">
-                        <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                        </div>
-                        <div class="col">
-                          <div class="progress progress-sm mr-2">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </div>
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Operações Concluídas</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        <?php
+                        $sql = "SELECT COUNT(*) as qtd FROM `operacao` WHERE fim_acompanhamento IS NOT NULL";
+                        if($result = $mysqli->query($sql)){
+                          $row = $result->fetch_assoc();
+                          echo $row['qtd'];
+                        }
+                        ?>
                       </div>
                     </div>
                     <div class="col-auto">
@@ -87,8 +94,16 @@ require("header.php");
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Mensagens</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Novas Mensagens</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      <?php
+                        $sql = "SELECT COUNT(*) as qtd FROM `bate_papo` WHERE `usuario_destinatario` = '{$_SESSION['id']}' AND visualizado = 0";
+                        if($result = $mysqli->query($sql)){
+                          $row = $result->fetch_assoc();
+                          echo $row['qtd'];
+                        }
+                        ?>
+                      </div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -137,16 +152,10 @@ require("header.php");
 
       </div>
       <!-- End of Main Content -->
-
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Operation++ 2019</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
+      <?php 
+      require("chat.php");
+      require("footer.php");
+      ?>
 
     </div>
     <!-- End of Content Wrapper -->
@@ -159,7 +168,7 @@ require("header.php");
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Logout Modal-->
+  <!-- Logout Modal
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -176,24 +185,14 @@ require("header.php");
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
+  </div> -->
 
   <!-- Page level plugins -->
   <script src="vendor/chart.js/Chart.min.js"></script>
 
   <!-- Page level custom scripts -->
   <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
+  <!-- <script src="js/demo/chart-pie-demo.js"></script> -->
 
 </body>
 

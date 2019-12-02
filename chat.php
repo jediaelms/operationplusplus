@@ -214,6 +214,8 @@
             <div class="button close">x</div>
         </div>
         <div class="title">Chat - Dr. Rancho Cruts</div>
+        <input type="hidden" id="destinatario" value="4"/>
+        <input type="hidden" id="remetente" value="1"/>
     </div>
     <ul class="messages"></ul>
     <div class="bottom_wrapper clearfix">
@@ -224,7 +226,7 @@
         <div class="message_input_wrapper">
             <input class="message_input" placeholder="Escreva sua mensagem..." />
         </div>
-        <div class="send_message">
+        <div class="send_message" onclick=sendMessage(<?=1;?>)>
             <div class="icon"></div>
             <div class="text"><i class="fas fa-fw  fa-paper-plane"></i></div>
         </div>
@@ -232,10 +234,9 @@
     </div>
     <div class="message_template">
         <li class="message">
-            <div class="avatar"></div>
             <div class="text_wrapper">
                 <div class="text"></div>
-                <b class="time">Sexta-feira: 21:00</b>
+                <b class="time"></b>
             </div>
         </li>
     </div>
