@@ -36,7 +36,7 @@ $result = $conn->query($sql);
                         <a href="#" class="btn btn-danger btn-circle btn-sm">
                             <i class="fas fa-trash"></i>
                         </a>
-                        <a href="#" class="btn btn-info btn-circle btn-sm open">
+                        <a href="#" onclick="openMessages(<?=$_SESSION['id']?>, <?=$row['cod_usuario']?>)"class="btn btn-info btn-circle btn-sm open">
                             <i class="fas fa-comments"></i>
                         </a>
                       </td>
