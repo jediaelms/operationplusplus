@@ -1,6 +1,10 @@
 <?php
+
+$tabela = 'tipo_operacao';
+$campo = 'cod_tip_op';
+
 $sql="SELECT * FROM `tipo_operacao`;";
-$result = $conn->query($sql);
+$result = $mysqli->query($sql);
 ?>
 <!-- Page Heading -->
           <p class="mb-4">Listagem de tipos de operações cadastradas.</p>
@@ -25,13 +29,13 @@ $result = $conn->query($sql);
                       // output data of each row
                       while($row = $result->fetch_assoc()) {
                         echo "<tr>";
-                        echo "<td>".$row["nome"]."</td>";
+                        echo "<td>".$row["nome"]."</td>"; 
                   ?>
                       <td>
                       <a href="cad_tip_ops.php?id=<?= $row['cod_tip_op'] ?>" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a class="btn btn-danger btn-circle btn-sm" href="#" data-toggle="modal" data-target="#deleteModal">
+                        <a class="btn btn-danger btn-circle btn-sm deletar" data-id="<?= $row['cod_tip_op'] ?>" href="#" data-toggle="modal" data-target="">
                             <i class="fas fa-trash"></i>
                         </a>
                       </td>

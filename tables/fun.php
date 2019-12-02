@@ -1,6 +1,6 @@
 <?php
 $sql="SELECT * FROM `funcionario` f, `usuario` u, `tipo_funcionario` t WHERE u.`cod_usuario`=f.`usuario_cod_usuario` AND f.`cod_tip_fun`=t.`cod_tip_fun`;";
-$result = $conn->query($sql);
+$result = $mysqli->query($sql);
 ?>
 <!-- Page Heading -->
           <p class="mb-4">Listagem de funcionários cadastrados.</p>

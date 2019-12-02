@@ -5,7 +5,7 @@ if($_SESSION['nivel'] == 1){
 else{
   $sql="SELECT cod_alerta, descricao, tipo_alerta FROM `alerta` a, `paciente` p WHERE a.concluido = 0 AND a.paciente_cod_paciente = p.cod_paciente AND  p.usuario_cod_usuario = '{$_SESSION['id']}';";
 }
-$result = $conn->query($sql);
+$result = $mysqli->query($sql);
 ?>
 <!-- Page Heading -->
           <p class="mb-4">Listagem de alertas cadastrados.</p>
@@ -42,7 +42,7 @@ $result = $conn->query($sql);
                         <a href="#" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a href="#" class="btn btn-danger btn-circle btn-sm">
+                        <a href="#" class="btn btn-danger btn-circle btn-sm deletar" data-id="<?= $row['cod_alerta'] ?>" data-toggle="modal" data-target="">
                             <i class="fas fa-trash"></i>
                         </a>
                     <?php

@@ -1,6 +1,6 @@
 <?php
 $sql="SELECT `cod_tip_op`,`nome` FROM `tipo_operacao`;";
-$result = $conn->query($sql);
+$result = $mysqli->query($sql);
 
 $login_erro = false;
 if (!empty($_POST)){
@@ -9,22 +9,22 @@ if (!empty($_POST)){
   $conteudo = $_POST['conteudo'];
 
   $sql = "INSERT INTO `instrucao` (`titulo`, `conteudo`) VALUES ('{$titulo}','{$conteudo}')";
-  if($query = $conn->query($sql)){
-    $id = $conn->insert_id;
+  if($query = $mysqli->query($sql)){
+    $id = $mysqli->insert_id;
     foreach ($_REQUEST['tipo_operacao'] as $selectedOption){
         $sql = "INSERT INTO `instrucao_tipo_operacao`(`cod_tip_op`, `instrucao_cod_instrucao`) VALUES ('{$selectedOption}','{$id}')";
-        if(!($query = $conn->query($sql))){
-            echo "Erro -> ". $conn->error;
+        if(!($query = $mysqli->query($sql))){
+            echo "Erro -> ". $mysqli->error;
             break;
         }
     }
     echo "<span style='color: green'>Cadastrado com sucesso!</span>";
   }
   else{
-    echo "Erro -> ". $conn->error;
+    echo "Erro -> ". $mysqli->error;
   }
 }
-mysqli_close($conn);
+mysqli_close($mysqli);
 ?>
 
 <!-- Basic Card Example -->

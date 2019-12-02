@@ -6,15 +6,15 @@ if (!empty($_POST)){
   $descricao = $_POST['descricao'];
   $sql = "INSERT INTO `tipo_operacao` (`nome`, `descricao`) VALUES ('{$nome}', '{$descricao}')";
   //var_dump($sql);
-  if($query = $conn->query($sql)){
+  if($query = $mysqli->query($sql)){
     echo "<span style='color: green'>Cadastrado com sucesso!</span>";
   }
   else{
-    echo "Erro -> ". $conn->error;
+    echo "Erro -> ". $mysqli->error;
   }
   //var_dump($query);
 }
-mysqli_close($conn);
+mysqli_close($mysqli);
 ?>
 
 <!-- Basic Card Example -->

@@ -1,26 +1,79 @@
 <?php
 
+$sql2 = "SELECT p.`cod_paciente`, u.`nome` FROM `usuario` u, `paciente` p WHERE u.`cod_usuario` = p.`usuario_cod_usuario`";
+$result2 = $mysqli->query($sql2);
+$select = '';
+if ($result2->num_rows > 0) {
+    while($row = $result2->fetch_assoc()) {
+        $select .= "<option value=".$row['cod_paciente'].">".$row["nome"]."</option>";
+    }
+}
+
 $login_erro = false;
 if (!empty($_POST)){
-  $nome = $_POST['nome'];
-  $tipo_operacao = $_POST['tipo_operacao'];
-  $paciente = $_POST['paciente'];
-  $observacoes = $_POST['observacoes'];
-  $data_ini = $_POST['data_ini'];
-  $data_fim = $_POST['data_fim'];
-  //var_dump($data_ini);
+    if(isset($_POST['tituloPont'])){
+        $titulo = $_POST['tituloPont'];
+        $data = $_POST['dataPont'];
+        $paciente = $_POST['paciente'];
+        
+        $sql = "INSERT INTO `alerta` (`descricao`, `tipo_alerta`, `paciente_cod_paciente`) VALUES ('{$titulo}','0','{$paciente}')";
+        if($query = $mysqli->query($sql)){
+            $id = $mysqli->insert_id;
+            $sql = "INSERT INTO `alerta_pontual` (`data`, `alerta_cod_alerta`) VALUES ('{$data}', '{$id}')";
+            if($query = $mysqli->query($sql)){
+                echo "<span style='color: green'>Cadastrado com sucesso!</span>";
+            }
+            else{
+                //var_dump($sql);
+                echo "Erro -> ". $mysqli->error;
+            }
+        }
+        else{
+            //var_dump($sql);
+            echo "Erro -> ". $mysqli->error;
+        }
+    }
+    else{
+        $titulo = $_POST['tituloEspac'];
+        $qtd = $_POST['qtdEspac'];
+        $dataIni = $_POST['dataIni'];
+        $dataFim = $_POST['dataFim'];
+        $paciente = $_POST['paciente'];
 
-  $sql = "INSERT INTO `operacao` (`nome`, `descricao`, `cod_paciente`, `horario_inicio`, `horario_fim`, `tipo_operacao_cod_tip_op`) VALUES ('{$nome}','{$observacoes}','{$paciente}','{$data_ini}','{$data_fim}','{$tipo_operacao}')";
-  //var_dump($sql);
-  if($query = $conn->query($sql)){
-    echo "<span style='color: green'>Cadastrado com sucesso!</span>";
-  }
-  else{
-    echo "Erro -> ". $conn->error;
-  }
-  //var_dump($query);
+        $erro = false;
+
+        $sql = "INSERT INTO `alerta` (`descricao`, `tipo_alerta`, `paciente_cod_paciente`) VALUES ('{$titulo}','0','{$paciente}')";
+        if($query = $mysqli->query($sql)){
+            $id = $mysqli->insert_id;
+            $sql = "INSERT INTO `alerta_espacado` (`data_ini`, `data_fim`, `num_registros`, `alerta_cod_alerta`) VALUES ('{$dataIni}', '{$dataFim}','{$qtd}', '{$id}')";
+            if($query = $mysqli->query($sql)){
+                $id = $mysqli->insert_id;
+                for ($i = 0; $i < $qtd; $i++){
+                    $sql = "INSERT INTO `registros` (`alerta_espacado_cod_espacado`) VALUES ('{$id}')";
+                    if(!($query = $mysqli->query($sql))){
+                        var_dump($sql);
+                        echo "1Erro -> ". $mysqli->error;
+                        $erro = true;
+                        break;
+                    }
+                }
+                if(!$erro) {
+                    echo "<span style='color: green'>Alterado com sucesso!</span>";
+                }
+            }
+            else{
+                var_dump($sql);
+                echo "2Erro -> ". $mysqli->error;
+            }
+        }
+        else{
+            var_dump($sql);
+            echo "3Erro -> ". $mysqli->error;
+        }
+    }
+
 }
-mysqli_close($conn);
+mysqli_close($mysqli);
 ?>
 <!-- Basic Card Example -->
 
@@ -39,12 +92,18 @@ mysqli_close($conn);
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <small>Título:</small>
-                        <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Título do Alerta">
+                        <input type="text" name="tituloPont" class="form-control form-control-user" id="exampleFirstName" placeholder="Título do Alerta">
                     </div>
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                        <small>Data Início:</small>
-                        <input type="date" class="form-control form-control-user" placeholder="Data">
+                        <small>Data:</small>
+                        <input type="date" name="dataPont" class="form-control form-control-user" placeholder="Data">
                     </div>
+                </div>
+                <div class="form-group">
+                    </small>Paciente:</small>
+                    <select name="paciente" class="form-control form-control-user">
+                    <?= $select ?>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary btn-user btn-block">
                     Salvar
@@ -64,22 +123,28 @@ mysqli_close($conn);
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <small>Título:</small>
-                        <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Título do Alerta">
+                        <input type="text" name="tituloEspac" class="form-control form-control-user" id="exampleFirstName" placeholder="Título do Alerta">
                     </div>
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <small>Quantidade:</small>
-                        <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Quantidade de vezes a serem checadas.">
+                        <input type="text" name="qtdEspac" class="form-control form-control-user" id="exampleFirstName" placeholder="Quantidade de vezes a serem checadas.">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <small>Data Início:</small>
-                        <input type="date" class="form-control form-control-user" placeholder="Data Início">
+                        <input type="date" name="dataIni" class="form-control form-control-user" placeholder="Data Início">
                     </div>
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <small>Data Fim:</small>
-                        <input type="date" class="form-control form-control-user" placeholder="Data Fim">
+                        <input type="date" name="dataFim" class="form-control form-control-user" placeholder="Data Fim">
                     </div>
+                </div>
+                <div class="form-group">
+                    </small>Paciente:</small>
+                    <select name="paciente" class="form-control form-control-user">
+                    <?= $select ?>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary btn-user btn-block">
                     Salvar

@@ -1,6 +1,6 @@
 <?php
 $sql="SELECT * FROM `tipo_funcionario`;";
-$result = $conn->query($sql);
+$result = $mysqli->query($sql);
 
 
 $login_erro = false;
@@ -11,23 +11,23 @@ if (!empty($_POST)){
   $crm = $_POST['crm'];
   $sql = "INSERT INTO `usuario` (`email`, `senha`, `nome`, `cpf`, `telefone`, `rua`, `numero`, `bairro`, `cidade_cod_cidade`) VALUES ('{$email}','{$senha}','{$nome}', null, null, null, null, null, 1)";
   //var_dump($sql);
-  if($query = $conn->query($sql)){
-    $id = $conn->insert_id;
+  if($query = $mysqli->query($sql)){
+    $id = $mysqli->insert_id;
     $sql = "INSERT INTO `funcionario` (`cod_tip_fun`, `usuario_cod_usuario`, `crm`) VALUES ({$tipo}, {$id}, {$crm})";
-    if($query = $conn->query($sql)){
+    if($query = $mysqli->query($sql)){
         echo "<span style='color: green'>Cadastrado com sucesso!</span>";
     }
     else{
-        echo "Erro -> ". $conn->error;
+        echo "Erro -> ". $mysqli->error;
     }
     
   }
   else{
-    echo "Erro -> ". $conn->error;
+    echo "Erro -> ". $mysqli->error;
   }
   //var_dump($query);
 }
-mysqli_close($conn);
+mysqli_close($mysqli);
 ?>
 <!-- Basic Card Example -->
 <div class="card shadow mb-4 col-offset-6">

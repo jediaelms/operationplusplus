@@ -4,7 +4,7 @@ $tabela = 'paciente';
 $campo = 'cod_paciente';
 
 $sql="SELECT * FROM `paciente` p, `usuario` u WHERE u.`cod_usuario`=p.`usuario_cod_usuario`;";
-$result = $conn->query($sql);
+$result = $mysqli->query($sql);
 ?>
 <!-- Page Heading -->
           <p class="mb-4">Listagem de pacientes cadastrados.</p>
@@ -37,7 +37,7 @@ $result = $conn->query($sql);
                         <a href="cad_paci.php?id=<?= $row['cod_paciente'] ?>" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a class="btn btn-danger btn-circle btn-sm" href="#" data-toggle="modal" data-target="#deleteModal">
+                        <a class="btn btn-danger btn-circle btn-sm deletar" data-id="<?= $row['cod_paciente'] ?>" href="#" data-toggle="modal" data-target="">
                             <i class="fas fa-trash"></i>
                         </a>
                         <a href="#" onclick="openMessages(<?=$_SESSION['id']?>, <?=$row['cod_usuario']?>)"class="btn btn-info btn-circle btn-sm open">

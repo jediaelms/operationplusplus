@@ -1,6 +1,9 @@
 <?php
+$tabela = 'tipo_funcionario';
+$campo = 'cod_tip_fun';
+
 $sql="SELECT * FROM `tipo_funcionario`;";
-$result = $conn->query($sql);
+$result = $mysqli->query($sql);
 ?>
 <!-- Page Heading -->
           <p class="mb-4">Listagem de tipos de funcionários cadastradas.</p>
@@ -28,10 +31,10 @@ $result = $conn->query($sql);
                         echo "<td>".$row["titulo"]."</td>";
                   ?>
                       <td>
-                      <a href="cad_tip_fun.php?id=<?= $row['cod_paciente'] ?>" class="btn btn-info btn-circle btn-sm">
+                      <a href="cad_tip_fun.php?id=<?= $row['cod_tip_fun'] ?>" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a class="btn btn-danger btn-circle btn-sm" href="#" data-toggle="modal" data-target="#deleteModal">
+                        <a class="btn btn-danger btn-circle btn-sm deletar" data-id="<?= $row['cod_tip_fun'] ?>" href="#" data-toggle="modal" data-target="">
                             <i class="fas fa-trash"></i>
                         </a>
                       </td>

@@ -9,7 +9,7 @@ if(isset($_POST['msg']) && isset($_POST['usuario_remetente']) && isset($_POST['u
         echo json_encode(['result'=> 'Mensagem Enviada', 'status' => 200]);
     }
     else{
-        echo json_encode(['result'=> 'Mensagem não Enviada. Erro -> '. $conn->error, 'status' => 500]);
+        echo json_encode(['result'=> 'Mensagem não Enviada. Erro -> '. $mysqli->error, 'status' => 500]);
     }
 }
 ?>

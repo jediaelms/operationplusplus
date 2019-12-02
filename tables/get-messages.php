@@ -29,7 +29,7 @@ if(isset($_POST['usuario_remetente']) && isset($_POST['usuario_destinatario'])){
         $mysqli->query($sql);
     }
     else{
-        echo json_encode(['result'=> $sql. $conn->error, 'status' => 500]);
+        echo json_encode(['result'=> $sql. $mysqli->error, 'status' => 500]);
     }
 }
 ?>

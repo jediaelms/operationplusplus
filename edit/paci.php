@@ -1,6 +1,6 @@
 <?php
 $sql="SELECT `cod_cidade`,`cidade` FROM `cidade`;";
-$result = $conn->query($sql);
+$result = $mysqli->query($sql);
 
 if (!empty($_POST)){
   $nome = $_POST['nome'];
@@ -16,27 +16,27 @@ if (!empty($_POST)){
   $data_nasc = $_POST['data_nasc'];
 $sql = "UPDATE `usuario` SET `email`= '{$email}', `senha`= '{$senha}', `nome`= '{$nome}', `cpf`= '{$cpf}', `telefone`= '{$telefone}', `rua`= '{$rua}', `numero`= '{$numero}', `bairro`= '{$bairro}', `cidade_cod_cidade`= '{$cidade}' WHERE cod_usuario = {$_GET['id']}";  
      
-  if($query = $conn->query($sql)){
-    $id = $conn->insert_id;
+  if($query = $mysqli->query($sql)){
+    $id = $mysqli->insert_id;
   $sql = "UPDATE `paciente` SET `usuario_cod_usuario` = {$id}, `data_nasc` = {$data_nasc}, `sexo` = {$sexo} WHERE `cod_paciente` = '{$id}'"; 
      
      
     //var_dump($sql);
-    if($query = $conn->query($sql)){
+    if($query = $mysqli->query($sql)){
         echo "<span style='color: green'>Alterado com sucesso!</span>";
     }
     else{
-        echo "Erro -> ". $conn->error;
+        echo "Erro -> ". $mysqli->error;
     }
     
   }
   else{
-    echo "Erro -> ". $conn->error;
+    echo "Erro -> ". $mysqli->error;
   }
 }
 
 $sqlEdit = "SELECT u.email, u.senha, u.nome, u.cpf, u.telefone, u.rua, u.numero, u.bairro, u.cidade_cod_cidade, p.usuario_cod_usuario, p.data_nasc, p.sexo FROM `paciente` p, `usuario` u WHERE p.`cod_paciente` = '{$_GET['id']}' AND p.`usuario_cod_usuario` = u.`cod_usuario`";
-$resultEdit = $conn->query($sqlEdit);
+$resultEdit = $mysqli->query($sqlEdit);
 
 if ($resultEdit->num_rows > 0) {
     // output data of each row
@@ -122,5 +122,5 @@ if ($resultEdit->num_rows > 0) {
     }
 }
 
-mysqli_close($conn);
+mysqli_close($mysqli);
 ?>

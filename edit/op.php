@@ -1,10 +1,10 @@
 <?php
 
 $sql="SELECT `cod_tip_op`,`nome` FROM `tipo_operacao`;";
-$result = $conn->query($sql);
+$result = $mysqli->query($sql);
 
 $sql2="SELECT p.`cod_paciente`, u.`nome` FROM `usuario` u, `paciente` p WHERE u.`cod_usuario` = p.`usuario_cod_usuario`";
-$result2 = $conn->query($sql2);
+$result2 = $mysqli->query($sql2);
 
 $login_erro = false;
 if (!empty($_POST)){
@@ -19,17 +19,17 @@ if (!empty($_POST)){
   $sql = "UPDATE `operacao` SET `nome`= '{$nome}', `descricao`= '{$observacoes}', `cod_paciente`= '{$paciente}', `horario`= '{$data_ini}', `horario_fim`= '{$data_fim}', `tipo_operacao_cod_tip_op`= '{$tipo_operacao}' WHERE `cod_operacao` = '{$_GET['id']}'";
     
   //var_dump($sql);
-  if($query = $conn->query($sql)){
+  if($query = $mysqli->query($sql)){
     echo "<span style='color: green'>Alterado com sucesso!</span>";
   }
   else{
-    echo "Erro -> ". $conn->error;
+    echo "Erro -> ". $mysqli->error;
   }
   //var_dump($query);
 }
 
 $sqlEdit = "SELECT o.`nome` AS `operacao`, tp.`cod_tip_op`, tp.`nome`, p.`cod_paciente`, u.`nome`, o.`descricao`, o.`horario`, o.`horario_fim` FROM `operacao` o, `paciente` p, `usuario` u, `tipo_operacao` tp WHERE o.`cod_operacao` = '{$_GET['id']}' AND o.`cod_paciente` = p.`cod_paciente` AND p.`usuario_cod_usuario` = u.`cod_usuario` AND o.`tipo_operacao_cod_tip_op` = tp.`cod_tip_op`";
-$resultEdit = $conn->query($sqlEdit);
+$resultEdit = $mysqli->query($sqlEdit);
 
 if ($resultEdit->num_rows > 0) {
     // output data of each row
@@ -110,5 +110,5 @@ if ($resultEdit->num_rows > 0) {
     }
 }
 
-mysqli_close($conn);
+mysqli_close($mysqli);
 ?>

@@ -6,16 +6,16 @@ if (!empty($_POST)){
   $descricao = $_POST['descricao'];
   $sql = "UPDATE `tipo_operacao`  SET `nome` = '{$nome}', `descricao` = '{$descricao}' WHERE `cod_tip_op` = '{$_GET['id']}'";
   //var_dump($sql);
-  if($query = $conn->query($sql)){
+  if($query = $mysqli->query($sql)){
     echo "<span style='color: green'>Alterado com sucesso!</span>";
   }
   else{
-    echo "Erro -> ". $conn->error;
+    echo "Erro -> ". $mysqli->error;
   }
   //var_dump($query);
 }
 $sqlEdit = "SELECT cod_tip_op, nome, descricao FROM `tipo_operacao` WHERE `cod_tip_op` = '{$_GET['id']}'";
-  $resultEdit = $conn->query($sqlEdit);
+  $resultEdit = $mysqli->query($sqlEdit);
   
   if ($resultEdit->num_rows > 0) {
       // output data of each row
@@ -35,7 +35,7 @@ $sqlEdit = "SELECT cod_tip_op, nome, descricao FROM `tipo_operacao` WHERE `cod_t
                     <input type="text" name="nome" value="<?= $rowEdit['nome'] ?>" class="form-control form-control-user" id="exampleFirstName" placeholder="...">
                 </div>
                 <div class="form-group">
-                <textarea name="descricao" class="form-control form-control-user" style="border-radius: 18px;" placeholder="Descrição">
+                <textarea name="descricao" class="form-control" style="border-radius: 18px;" placeholder="Descrição">
                 <?= $rowEdit['descricao'] ?>
                 </textarea>
                 </div>
@@ -52,6 +52,6 @@ $sqlEdit = "SELECT cod_tip_op, nome, descricao FROM `tipo_operacao` WHERE `cod_t
     <?php
     }
 }
-    mysqli_close($conn);
+    mysqli_close($mysqli);
     ?>
     

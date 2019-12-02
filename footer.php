@@ -52,7 +52,7 @@
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-danger" href="delete.php?tabela=<?= $tabela ?>&campo=<?= $campo ?>&id=<?= $id ?>">Apagar</a>
+          <a class="btn btn-danger apagar" href="delete.php?tabela=<?= $tabela ?>&campo=<?= $campo ?>">Apagar</a>
         </div>
       </div>
     </div>
@@ -118,4 +118,11 @@ var getNotifications = function(){
   }
 }
 setInterval(getNotifications, 200);
+
+$('.deletar').on('click', function(){
+      var id = $(this).data('id'); // vamos buscar o valor do atributo data-id
+      var link = $('a.apagar').attr('href');
+      $('a.apagar').attr('href', link +'&id='+id); // mudar dinamicamente o link, href do botão confirmar da modal
+      $('#deleteModal').modal('show'); // modal aparece
+});
 </script>

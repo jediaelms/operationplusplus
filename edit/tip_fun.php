@@ -1,27 +1,27 @@
 <?php
-$id = '';
 $tabela = 'tipo_funcionario';
 $campo = 'cod_tip_fun';
 $login_erro = false;
+
 if (!empty($_POST)){
   $tipo = $_POST['tipo'];
-  $sql = "UPDATE `tipo_funcionario` SET `titulo` = '{$tipo}'";
+  $sql = "UPDATE `tipo_funcionario` SET `titulo` = '{$tipo}' WHERE `cod_tip_fun` = '{$_GET['id']}'";
   //var_dump($sql);
-  if($query = $conn->query($sql)){
+  if($query = $mysqli->query($sql)){
     echo "<span style='color: green'>Alterado com sucesso!</span>";
   }
   else{
-    echo "Erro -> ". $conn->error;
+    echo "Erro -> ". $mysqli->error;
   }
+}
   //var_dump($query);
   
   $sqlEdit = "SELECT cod_tip_fun, titulo FROM `tipo_funcionario` WHERE `cod_tip_fun` = '{$_GET['id']}'";
-  $resultEdit = $conn->query($sqlEdit);
+  $resultEdit = $mysqli->query($sqlEdit);
   
   if ($resultEdit->num_rows > 0) {
       // output data of each row
       while($rowEdit = $resultEdit->fetch_assoc()) {
-          $id = $row['cod_tip_fun'];
   ?>
 <!-- Basic Card Example -->
     <div class="card col mb-6 col-offset-2">
@@ -61,5 +61,5 @@ if (!empty($_POST)){
     }
 }
 
-mysqli_close($conn);
+mysqli_close($mysqli);
 ?>
