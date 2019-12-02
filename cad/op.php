@@ -1,10 +1,5 @@
 <?php
 
-if(isset($_GET) && isset($_GET['id']) && !empty($_GET['id'])){
-    $sqlEdit = "SELECT o.`nome`, tp.`cod_tip_op`, tp.`nome`, p.`cod_paciente`, u.`nome`, o.`descricao`, o.`data_inicio`, o.`data_fim` FROM `operacao` o, `paciente` p, `usuario` u, `tipo_operacao` tp WHERE o.`cod_operacao` = '{$_GET['id']' AND o.`cod_paciente` = p.`cod_paciente` AND p.`usuario_cod_usuario` = u.`cod_usuario` AND o.`tipo_operacao_cod_tip_op` = tp.`cod_tip_op`";
-    $resultEdit = $conn->query($sqlEdit);
-}
-
 $sql="SELECT `cod_tip_op`,`nome` FROM `tipo_operacao`;";
 $result = $conn->query($sql);
 

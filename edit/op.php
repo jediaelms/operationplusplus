@@ -1,17 +1,10 @@
 <?php
 
-if(isset($_GET) && isset($_GET['id']) && !empty($_GET['id'])){
-    $sqlEdit = "SELECT o.`nome`, tp.`cod_tip_op`, tp.`nome`, p.`cod_paciente`, u.`nome`, o.`descricao`, o.`data_inicio`, o.`data_fim` FROM `operacao` o, `paciente` p, `usuario` u, `tipo_operacao` tp WHERE o.`cod_operacao` = '{$_GET['id']' AND o.`cod_paciente` = p.`cod_paciente` AND p.`usuario_cod_usuario` = u.`cod_usuario` AND o.`tipo_operacao_cod_tip_op` = tp.`cod_tip_op`";
-    $resultEdit = $conn->query($sqlEdit);
-}
-
 $sql="SELECT `cod_tip_op`,`nome` FROM `tipo_operacao`;";
 $result = $conn->query($sql);
 
 $sql2="SELECT p.`cod_paciente`, u.`nome` FROM `usuario` u, `paciente` p WHERE u.`cod_usuario` = p.`usuario_cod_usuario`";
 $result2 = $conn->query($sql2);
-
-
 
 $login_erro = false;
 if (!empty($_POST)){
@@ -23,17 +16,24 @@ if (!empty($_POST)){
   $data_fim = $_POST['data_fim'];
   //var_dump($data_ini);
 
-  $sql = "INSERT INTO `operacao` (`nome`, `descricao`, `cod_paciente`, `horario_inicio`, `horario_fim`, `tipo_operacao_cod_tip_op`) VALUES ('{$nome}','{$observacoes}','{$paciente}','{$data_ini}','{$data_fim}','{$tipo_operacao}')";
+  $sql = "UPDATE `operacao` SET `nome`= '{$nome}', `descricao`= '{$observacoes}', `cod_paciente`= '{$paciente}', `horario`= '{$data_ini}', `horario_fim`= '{$data_fim}', `tipo_operacao_cod_tip_op`= '{$tipo_operacao}' WHERE `cod_operacao` = '{$_GET['id']}'";
+    
   //var_dump($sql);
   if($query = $conn->query($sql)){
-    echo "<span style='color: green'>Cadastrado com sucesso!</span>";
+    echo "<span style='color: green'>Alterado com sucesso!</span>";
   }
   else{
     echo "Erro -> ". $conn->error;
   }
   //var_dump($query);
 }
-mysqli_close($conn);
+
+$sqlEdit = "SELECT o.`nome` AS `operacao`, tp.`cod_tip_op`, tp.`nome`, p.`cod_paciente`, u.`nome`, o.`descricao`, o.`horario`, o.`horario_fim` FROM `operacao` o, `paciente` p, `usuario` u, `tipo_operacao` tp WHERE o.`cod_operacao` = '{$_GET['id']}' AND o.`cod_paciente` = p.`cod_paciente` AND p.`usuario_cod_usuario` = u.`cod_usuario` AND o.`tipo_operacao_cod_tip_op` = tp.`cod_tip_op`";
+$resultEdit = $conn->query($sqlEdit);
+
+if ($resultEdit->num_rows > 0) {
+    // output data of each row
+    while($rowEdit = $resultEdit->fetch_assoc()) {
 ?>
 <!-- Basic Card Example -->
 <div class="card shadow mb-4 col-offset-6">
@@ -45,9 +45,7 @@ mysqli_close($conn);
             <div class="form-group row">
                 <div class="col-sm-12 mb-3 mb-sm-0">
                     <small>Operação:</small>
-                    
-                    <input type="text" name="nome" class="form-control form-control-user" id="exampleFirstName" placeholder="Nome">
-
+                    <input type="text" name="nome" value="<?= $rowEdit['operacao'] ?>" class="form-control form-control-user" id="exampleFirstName" placeholder="Nome">
                 </div>
             </div>
             <div class="form-group row">
@@ -58,7 +56,9 @@ mysqli_close($conn);
                         if ($result->num_rows > 0) {
                         // output data of each row
                         while($row = $result->fetch_assoc()) {
-                            echo "<option value=".$row['cod_tip_op'].">".$row["nome"]."</option>";
+                            echo "<option value=".$row['cod_tip_op'];
+                            if($row['cod_tip_op'] == $rowEdit['cod_tip_op']) echo " selected "; 
+                            echo ">".$row["nome"]."</option>";
                         }
                         }
                     ?>
@@ -69,10 +69,11 @@ mysqli_close($conn);
                     <select name="paciente" class="form-control form-control-user">
                     <?php
                         if ($result2->num_rows > 0) {
-                        // output data of each row
-                        while($row = $result2->fetch_assoc()) {
-                            echo "<option value=".$row['cod_paciente'].">".$row["nome"]."</option>";
-                        }
+                            while($row = $result2->fetch_assoc()) {
+                                echo "<option value=".$row['cod_paciente'];
+                                if($row['cod_paciente'] == $rowEdit['cod_paciente']) echo " selected "; 
+                                echo ">".$row["nome"]."</option>";
+                            }
                         }
                     ?>
                     </select>
@@ -81,16 +82,17 @@ mysqli_close($conn);
             <div class="form-group">
                 <small>Observações:</small>
                 <textarea name="observacoes" class="form-control form-control-user" style="border-radius: 18px;" placeholder="Entre com as observações">
+                    <?= $rowEdit['descricao'] ?>
                 </textarea>
             </div>
             <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <small>Início:</small>
-                        <input type="datetime-local" name="data_ini" class="form-control form-control-user" id="cpf" placeholder="Data Início">
+                        <input type="datetime-local" name="data_ini" value="<?= str_replace(' ','T', $rowEdit['horario']) ?>" class="form-control form-control-user" id="cpf" placeholder="Data Início">
                     </div>
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <small>Fim:</small>
-                        <input type="datetime-local" name="data_fim" class="form-control form-control-user" id="cpf" placeholder="Data Fim">
+                        <input type="datetime-local" name="data_fim" value="<?= str_replace(' ','T', $rowEdit['horario_fim']) ?>" class="form-control form-control-user" id="cpf" placeholder="Data Fim">
                     </div>
             </div>
             <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -103,3 +105,10 @@ mysqli_close($conn);
         </form>
     </div>
 </div>
+
+<?php
+    }
+}
+
+mysqli_close($conn);
+?>

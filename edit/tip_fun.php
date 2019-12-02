@@ -1,29 +1,28 @@
 <?php
-$mysqli = mysqli_connect("localhost", "root", "", "operation_tb");
-
-if (!$mysqli) {
-  echo "Error: Unable to connect to MySQL." . PHP_EOL;
-  echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
-  echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
-  exit;
-}
-
+$id = '';
+$tabela = 'tipo_funcionario';
+$campo = 'cod_tip_fun';
 $login_erro = false;
 if (!empty($_POST)){
   $tipo = $_POST['tipo'];
-  $sql = "INSERT INTO `tipo_funcionario` (`titulo`) VALUES ('{$tipo}')";
+  $sql = "UPDATE `tipo_funcionario` SET `titulo` = '{$tipo}'";
   //var_dump($sql);
-  if($query = $mysqli->query($sql)){
-    echo "<span style='color: green'>Cadastrado com sucesso!</span>";
+  if($query = $conn->query($sql)){
+    echo "<span style='color: green'>Alterado com sucesso!</span>";
   }
   else{
-    echo "Erro -> ". $mysqli->error;
+    echo "Erro -> ". $conn->error;
   }
   //var_dump($query);
-}
-mysqli_close($mysqli);
-?>
-
+  
+  $sqlEdit = "SELECT cod_tip_fun, titulo FROM `tipo_funcionario` WHERE `cod_tip_fun` = '{$_GET['id']}'";
+  $resultEdit = $conn->query($sqlEdit);
+  
+  if ($resultEdit->num_rows > 0) {
+      // output data of each row
+      while($rowEdit = $resultEdit->fetch_assoc()) {
+          $id = $row['cod_tip_fun'];
+  ?>
 <!-- Basic Card Example -->
     <div class="card col mb-6 col-offset-2">
         <div class="card-header py-3">
@@ -34,7 +33,7 @@ mysqli_close($mysqli);
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <small>Tipo de Funcionário:</small>
-                        <input type="text" name="tipo" class="form-control form-control-user" id="exampleFirstName" placeholder="...">
+                        <input type="text" name="tipo" value="<?= $rowEdit['titulo'] ?>"  class="form-control form-control-user" id="exampleFirstName" placeholder="...">
                     </div>
                     <div class="col-sm-6">
                     <?php
@@ -58,3 +57,9 @@ mysqli_close($mysqli);
             </form>
         </div>
     </div>
+    <?php
+    }
+}
+
+mysqli_close($conn);
+?>

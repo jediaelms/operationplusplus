@@ -28,10 +28,10 @@ $result = $conn->query($sql);
                         echo "<td>".$row["nome"]."</td>";
                   ?>
                       <td>
-                        <a href="#" class="btn btn-info btn-circle btn-sm">
+                      <a href="cad_tip_ops.php?id=<?= $row['cod_tip_op'] ?>" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a href="#" class="btn btn-danger btn-circle btn-sm">
+                        <a class="btn btn-danger btn-circle btn-sm" href="#" data-toggle="modal" data-target="#deleteModal">
                             <i class="fas fa-trash"></i>
                         </a>
                       </td>

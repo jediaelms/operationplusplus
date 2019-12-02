@@ -1,4 +1,8 @@
 <?php
+$id = '';
+$tabela = 'paciente';
+$campo = 'cod_paciente';
+
 $sql="SELECT * FROM `paciente` p, `usuario` u WHERE u.`cod_usuario`=p.`usuario_cod_usuario`;";
 $result = $conn->query($sql);
 ?>
@@ -30,10 +34,10 @@ $result = $conn->query($sql);
                         echo "<td>".$row["cpf"]."</td>";
                   ?>
                       <td>
-                        <a href="#" class="btn btn-info btn-circle btn-sm">
+                        <a href="cad_paci.php?id=<?= $row['cod_paciente'] ?>" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a href="#" class="btn btn-danger btn-circle btn-sm">
+                        <a class="btn btn-danger btn-circle btn-sm" href="#" data-toggle="modal" data-target="#deleteModal">
                             <i class="fas fa-trash"></i>
                         </a>
                         <a href="#" class="btn btn-info btn-circle btn-sm open">
@@ -42,6 +46,7 @@ $result = $conn->query($sql);
                       </td>
                   <?php
                         echo "</tr>";
+                        $id = $row['cod_paciente'];
                       }
                     }
                   ?>
