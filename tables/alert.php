@@ -1,5 +1,10 @@
 <?php
-$sql="SELECT * FROM `alerta`;";
+if($_SESSION['nivel'] == 1){
+  $sql="SELECT * FROM `alerta`;";
+}
+else{
+  $sql="SELECT cod_alerta, descricao, tipo_alerta FROM `alerta` a, `paciente` p WHERE a.concluido = 0 AND a.paciente_cod_paciente = p.cod_paciente AND  p.usuario_cod_usuario = '{$_SESSION['id']}';";
+}
 $result = $conn->query($sql);
 ?>
 <!-- Page Heading -->
@@ -31,13 +36,19 @@ $result = $conn->query($sql);
                         echo "<td>".$tipo."</td>";
                     ?>
                       <td>
+                    <?php
+                    if($_SESSION['nivel'] == 1){
+                    ?>
                         <a href="#" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
                         <a href="#" class="btn btn-danger btn-circle btn-sm">
                             <i class="fas fa-trash"></i>
                         </a>
-                        <a href="#" class="btn btn-info btn-circle btn-sm open">
+                    <?php
+                    }
+                    ?>
+                        <a onclick="concluirTarefa(<?=$row['cod_alerta']?>, <?=$row['tipo_alerta']?>)" href="#" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-check"></i>
                         </a>
                       </td>
@@ -51,4 +62,30 @@ $result = $conn->query($sql);
               </div>
             </div>
           </div>
-          
+<script>
+var concluirTarefa = function (alert, tipo){
+  $.ajax({
+          url: "cad/concluir-alerta.php",
+          type: 'get',
+          dataType: "json",
+          data: {
+              alert: alert,
+              tipo: tipo
+          }
+      })
+      .done(function (msg) {
+        console.log(msg);
+        if(msg.status == 200){
+          $("#acaoTitle").html("Sucesso!");
+        }
+        else{
+          $("#acaoTitle").html("Erro!");
+        }
+        $("#acaoBody").html(msg.result);
+        $("#acaoModal").modal('show');
+      })
+      .fail(function (jqXHR, textStatus, msg) {
+          // alert(msg);
+      });
+}
+</script>

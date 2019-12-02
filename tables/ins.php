@@ -1,5 +1,10 @@
 <?php
+if($_SESSION['nivel'] == 1){
 $sql="SELECT * FROM `instrucao`;";
+}
+else{
+  $sql="SELECT conteudo FROM `instrucao` i JOIN instrucao_tipo_operacao ito ON ito.instrucao_cod_instrucao = i.cod_instrucao JOIN operacao o ON o.tipo_operacao_cod_tip_op = ito.cod_tip_op WHERE o.cod_paciente = '{$_SESSION['id']}' AND fim_acompanhamento IS NULL;";
+}
 $result = $conn->query($sql);
 ?>
 <!-- Page Heading -->
@@ -16,7 +21,13 @@ $result = $conn->query($sql);
         <thead>
           <tr>
             <th>Título</th>
-            <th>Ações</th>
+            <?php
+            if($_SESSION['nivel'] == 1){
+            ?>
+              <th>Ações</th>
+            <?php
+            }
+            ?>
           </tr>
         </thead>
         <tbody>
@@ -26,6 +37,7 @@ $result = $conn->query($sql);
                       while($row = $result->fetch_assoc()) {
                         echo "<tr>";
                         echo "<td>".$row["conteudo"]."</td>";
+                        if($_SESSION['nivel'] == 1){
                   ?>
                       <td>
                         <a href="#" class="btn btn-info btn-circle btn-sm">
@@ -36,6 +48,7 @@ $result = $conn->query($sql);
                         </a>
                       </td>
                   <?php
+                        }
                   echo "</tr>";
                 }
               }
