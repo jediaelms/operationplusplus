@@ -24,7 +24,7 @@ if (!empty($_POST)){
           header("Location: ./main.php");
         }else{
           $_SESSION['nivel'] = 0;
-          header("Location: ./main.php");
+          header("Location: ./list_alertas.php");
         }
       }
   }else{
