@@ -1,5 +1,10 @@
 <?php
+if($_SESSION['nivel'] == 1){
 $sql="SELECT * FROM `instrucao`;";
+}
+else{
+  $sql="SELECT conteudo FROM `instrucao` i JOIN instrucao_tipo_operacao ito ON ito.instrucao_cod_instrucao = i.cod_instrucao JOIN operacao o ON o.tipo_operacao_cod_tip_op = ito.cod_tip_op WHERE o.cod_paciente = '{$_SESSION['id']}' AND fim_acompanhamento IS NULL;";
+}
 $result = $conn->query($sql);
 ?>
 <!-- Page Heading -->
